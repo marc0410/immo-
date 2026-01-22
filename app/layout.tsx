@@ -10,7 +10,6 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mon
 export const metadata: Metadata = {
   title: 'Immo+ V2 - Stratégie & GTM',
   description: 'Dashboard stratégique Immo+ V2 : Relance & Go-To-Market',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
