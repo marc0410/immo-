@@ -15,7 +15,8 @@ import {
   X,
   ChevronRight,
   Sparkles,
-  Banknote
+  Banknote,
+  Calendar
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -27,6 +28,7 @@ interface SidebarProps {
 const navItems = [
   { id: "dashboard", label: "Vue d'ensemble", icon: LayoutDashboard },
   { id: "vision", label: "Vision & Produit", icon: Eye },
+  { id: "roadmap", label: "Stratégie 90J & Roadmap", icon: Calendar, badge: "Growth" },
   { id: "ux-audit", label: "Audit UX/UI", icon: AlertCircle, badge: "Nouveau" },
   { id: "bizmodel", label: "Business Model", icon: Wallet },
   { id: "tech", label: "Tech & Audit", icon: Settings2 },

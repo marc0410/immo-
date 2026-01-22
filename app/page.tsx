@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Sidebar, MobileHeader, MobileSidebar } from "@/components/dashboard/sidebar"
 import { DashboardSection } from "@/components/dashboard/sections/dashboard-section"
 import { VisionSection } from "@/components/dashboard/sections/vision-section"
+import { RoadmapSection } from "@/components/dashboard/sections/roadmap-section"
 import { BizModelSection } from "@/components/dashboard/sections/bizmodel-section"
 import { TechSection } from "@/components/dashboard/sections/tech-section"
 import { GtmSection } from "@/components/dashboard/sections/gtm-section"
@@ -28,6 +29,8 @@ export default function HomePage() {
         return <DashboardSection key={activeSection} onNavigate={handleSectionChange} />
       case "vision":
         return <VisionSection key={activeSection} />
+      case "roadmap":
+        return <RoadmapSection key={activeSection} />
       case "ux-audit":
         return <UxAuditSection key={activeSection} />
       case "bizmodel":

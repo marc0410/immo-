@@ -30,7 +30,7 @@ export function VisionSection() {
               Modèle Recommandé : Gestion par la Plateforme
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Dès qu'un bien est fractionné, sa gestion passe sous contrôle Immo+.
+             Immo Plus est une plateforme digitale de mise en relation entre clients et partenaires, entièrement dédiée aux services immobiliers et à toutes les facettes de ce secteur. Elle a pour vocation de présenter des opportunités immobilières de qualité en Côte d'Ivoire et à l'international. L'application propose des visites 360° et guidées sans déplacement.
             </p>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start">
