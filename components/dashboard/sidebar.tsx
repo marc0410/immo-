@@ -32,9 +32,9 @@ const navItems = [
   { id: "ux-audit", label: "Audit UX/UI", icon: AlertCircle, badge: "Nouveau" },
   { id: "bizmodel", label: "Business Model", icon: Wallet },
   { id: "tech", label: "Tech & Audit", icon: Settings2 },
-  { id: "gtm", label: "Lancement & Store", icon: Rocket },
+  // { id: "gtm", label: "Lancement & Store", icon: Rocket },
   { id: "partners", label: "Partenariats", icon: Users },
-  { id: "kpi", label: "KPIs & Finance", icon: TrendingUp },
+  { id: "kpi", label: "KPIs & Finance", icon: TrendingUp, badge: "Non optimal" },
   { id: "fundraising", label: "Levee de Fonds", icon: Banknote, badge: "Pre-Seed" },
   { id: "screenshots", label: "Captures & Feedback", icon: ImageIcon },
 ]

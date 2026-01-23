@@ -6,7 +6,7 @@ const revenueData = [
   { name: "Ventes (10%)", value: 40, color: "#f97316" },
   { name: "Location Saisonnière (5%)", value: 20, color: "#0ea5e9" },
   { name: "Séjour (7%)", value: 28, color: "#06b6d4" },
-  { name: "Gestion Location (1000€/visite)", value: 12, color: "#6366f1" },
+  { name: "Gestion Location (1000FCFA/visite)", value: 12, color: "#6366f1" },
 ]
 
 export function BizModelSection() {
@@ -47,7 +47,7 @@ export function BizModelSection() {
             <li className="flex justify-between items-center p-3 bg-indigo-50 dark:bg-indigo-950/20 rounded border border-indigo-200 dark:border-indigo-800">
               <span className="font-bold text-sm text-foreground">🔑 Gestion Location</span>
               <span className="text-sm font-semibold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded">
-                1000€/visite
+                1000FCFA /visite
               </span>
             </li>
           </ul>
@@ -85,7 +85,7 @@ export function BizModelSection() {
             <div className="bg-indigo-50 dark:bg-indigo-950/20 border-l-4 border-indigo-500 p-4 rounded">
               <h4 className="font-bold text-indigo-900 dark:text-indigo-100 text-sm">🔑 Gestion de Location</h4>
               <ul className="text-sm text-indigo-800 dark:text-indigo-200 mt-2 space-y-1">
-                <li>✓ <strong>1000€ / visite</strong> (frais fixes)</li>
+                <li>✓ <strong>1000FCFA / visite</strong> (frais fixes)</li>
                 <li>✓ <strong>35% de commission</strong> sur 3 mois d'agence</li>
                 <li>✓ Gestion complète des cautions et documents</li>
               </ul>
@@ -112,7 +112,7 @@ export function BizModelSection() {
 
       {/* Growth Strategy */}
       <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/10 rounded-xl p-6">
-        <h3 className="font-bold text-lg mb-4 text-foreground">3. Moteur de Croissance : Démarcheurs & Liquidité</h3>
+        <h3 className="font-bold text-lg mb-4 text-foreground">3. Moteur de Croissance : Démarcheurs & Liquidité(À discuter et à peaufiner)</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-orange-50 dark:bg-orange-950/30 border-l-4 border-orange-500 p-4">

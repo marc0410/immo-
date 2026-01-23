@@ -4,7 +4,7 @@ export function TechSection() {
   return (
     <section className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <header>
-        <h2 className="text-3xl font-bold text-foreground">Tech, Audit & Performance</h2>
+        <h2 className="text-3xl font-bold text-foreground">Tech, Audit & Performance(En un coup D'oeil à peaufiner après avoir checker le code source)</h2>
         <p className="text-muted-foreground mt-2">
           État des lieux critique et plan de correction pour supporter la charge V2.
         </p>

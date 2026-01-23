@@ -125,9 +125,9 @@ const pitchDeckSections = [
 ]
 
 const financialProjections = [
-  { year: "2025", revenue: 50, costs: 120, users: 2 },
-  { year: "2026", revenue: 250, costs: 200, users: 15 },
-  { year: "2027", revenue: 800, costs: 400, users: 50 },
+  { year: "2025", revenue: 50, costs: 0, users: 2 },
+  { year: "2026", revenue: 250, costs: 150, users: 100 },
+  { year: "2027", revenue: 800, costs: 200, users: 180 },
 ]
 
 export function FundraisingSection() {

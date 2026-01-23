@@ -13,7 +13,7 @@ export function PartnersSection() {
   return (
     <section className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <header>
-        <h2 className="text-3xl font-bold text-foreground">Partenariats & Écosystème</h2>
+        <h2 className="text-3xl font-bold text-foreground">Partenariats & Écosystème( À discuter et à peaufiner) </h2>
         <p className="text-muted-foreground mt-2">
           Cibles prioritaires pour crédibilité et volume. Actuellement faible, à développer d'urgence.
         </p>
