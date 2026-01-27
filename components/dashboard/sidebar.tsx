@@ -11,6 +11,7 @@ import {
   TrendingUp, 
   ImageIcon,
   AlertCircle,
+  File,
   Menu,
   X,
   ChevronRight,
@@ -35,8 +36,11 @@ const navItems = [
   // { id: "gtm", label: "Lancement & Store", icon: Rocket },
   { id: "partners", label: "Partenariats", icon: Users },
   { id: "kpi", label: "KPIs & Finance", icon: TrendingUp, badge: "Non optimal" },
-  { id: "fundraising", label: "Levee de Fonds", icon: Banknote, badge: "Pre-Seed" },
+  { id: "fundraising", label: "Levée de Fonds", icon: Banknote, badge: "Pré-Seed" },
   { id: "screenshots", label: "Captures & Feedback", icon: ImageIcon },
+  { id: "product-risk", label: "Product Risk & Opportunity Report", icon: AlertCircle },
+  { id: "vision-board", label: "Product Vision Board (UX/UI)", icon: ImageIcon },
+  { id: "user-story", label: "Template de User Story Standard", icon: File },
 ]
 
 const decisions = [

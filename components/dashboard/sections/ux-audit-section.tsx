@@ -29,6 +29,10 @@ import {
   Lightbulb,
   Target
 } from "lucide-react"
+import { Edit3, Trash2, Plus } from 'lucide-react'
+import { Modal } from '@/components/ui/modal'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 interface UXIssue {
   id: string
@@ -41,7 +45,7 @@ interface UXIssue {
   icon: React.ElementType
 }
 
-const uxIssues: UXIssue[] = [
+const initialUxIssues: UXIssue[] = [
   {
     id: "1",
     category: "Navigation",
@@ -205,19 +209,97 @@ export function UxAuditSection() {
   const [selectedIssue, setSelectedIssue] = useState<UXIssue | null>(null)
   const [activeTab, setActiveTab] = useState("all")
 
-  const filteredIssues = activeTab === "all" 
-    ? uxIssues 
-    : uxIssues.filter(issue => issue.severity === activeTab)
+  // stateful issues list
+  const [issues, setIssues] = useState<UXIssue[]>(initialUxIssues)
 
-  const issuesByCategory = uxIssues.reduce((acc, issue) => {
+  // modal + form state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingIssue, setEditingIssue] = useState<UXIssue | null>(null)
+  const [formTitle, setFormTitle] = useState('')
+  const [formSeverity, setFormSeverity] = useState<UXIssue['severity']>('medium')
+  const [formCategory, setFormCategory] = useState('')
+  const [formDescription, setFormDescription] = useState('')
+  const [formRecommendation, setFormRecommendation] = useState('')
+
+  const resetForm = () => {
+    setFormTitle('')
+    setFormSeverity('medium')
+    setFormCategory('')
+    setFormDescription('')
+    setFormRecommendation('')
+    setEditingIssue(null)
+  }
+
+  const openCreate = () => {
+    resetForm()
+    setIsModalOpen(true)
+  }
+
+  const openEdit = (issue: UXIssue) => {
+    setEditingIssue(issue)
+    setFormTitle(issue.title)
+    setFormSeverity(issue.severity)
+    setFormCategory(issue.category)
+    setFormDescription(issue.description)
+    setFormRecommendation(issue.recommendation)
+    setIsModalOpen(true)
+  }
+
+  const saveForm = () => {
+    if (editingIssue) {
+      setIssues(prev => prev.map(i => i.id === editingIssue.id ? {
+        ...i,
+        title: formTitle,
+        severity: formSeverity,
+        category: formCategory || i.category,
+        description: formDescription,
+        recommendation: formRecommendation
+      } : i))
+      if (selectedIssue?.id === editingIssue.id) {
+        setSelectedIssue(prev => prev ? ({...prev, title: formTitle, severity: formSeverity, category: formCategory || prev.category, description: formDescription, recommendation: formRecommendation}) : prev)
+      }
+    } else {
+      const id = Date.now().toString()
+      const newIssue: UXIssue = {
+        id,
+        category: formCategory || 'Général',
+        title: formTitle || 'Nouveau problème',
+        description: formDescription,
+        severity: formSeverity,
+        status: 'open',
+        recommendation: formRecommendation,
+        icon: Target
+      }
+      setIssues(prev => [newIssue, ...prev])
+    }
+
+    setIsModalOpen(false)
+    resetForm()
+  }
+
+  const deleteIssue = (id: string) => {
+    const ok = window.confirm('Supprimer ce problème ? Cette action est irréversible.')
+    if (!ok) return
+    setIssues(prev => prev.filter(i => i.id !== id))
+    if (selectedIssue?.id === id) setSelectedIssue(null)
+  }
+
+  const toggleResolved = (id: string) => {
+    setIssues(prev => prev.map(i => i.id === id ? {...i, status: i.status === 'resolved' ? 'open' : 'resolved'} : i))
+    if (selectedIssue?.id === id) setSelectedIssue(prev => prev ? ({...prev, status: prev.status === 'resolved' ? 'open' : 'resolved'}) : prev)
+  }
+
+  const filteredIssues = activeTab === "all" ? issues : issues.filter(issue => issue.severity === activeTab)
+
+  const issuesByCategory = issues.reduce((acc, issue) => {
     acc[issue.category] = (acc[issue.category] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
-  const criticalCount = uxIssues.filter(i => i.severity === "critical").length
-  const highCount = uxIssues.filter(i => i.severity === "high").length
-  const resolvedCount = uxIssues.filter(i => i.status === "resolved").length
-  const totalScore = Math.round((resolvedCount / uxIssues.length) * 100)
+  const criticalCount = issues.filter(i => i.severity === "critical").length
+  const highCount = issues.filter(i => i.severity === "high").length
+  const resolvedCount = issues.filter(i => i.status === "resolved").length
+  const totalScore = Math.round((resolvedCount / (issues.length || 1)) * 100)
 
   return (
     <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -271,7 +353,7 @@ export function UxAuditSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total issues</p>
-                <p className="text-3xl font-bold text-primary">{uxIssues.length}</p>
+                <p className="text-3xl font-bold text-primary">{issues.length}</p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Target className="w-6 h-6 text-primary" />
@@ -296,6 +378,46 @@ export function UxAuditSection() {
         </Card>
       </div>
 
+      {/* Create / Edit Modal */}
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingIssue ? 'Modifier le problème' : 'Nouveau problème'}>
+        <div className="space-y-3">
+          <div>
+            <label className="text-sm font-medium">Titre</label>
+            <Input value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="mt-2" />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Priorité</label>
+            <select value={formSeverity} onChange={(e) => setFormSeverity(e.target.value as any)} className="mt-2 w-full rounded-md border bg-transparent px-3 py-2">
+              <option value="critical">Critique</option>
+              <option value="high">Élevée</option>
+              <option value="medium">Moyenne</option>
+              <option value="low">Faible</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Catégorie</label>
+            <Input value={formCategory} onChange={(e) => setFormCategory(e.target.value)} className="mt-2" />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Description</label>
+            <Textarea value={formDescription} onChange={(e:any) => setFormDescription(e.target.value)} className="mt-2" />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Recommandation</label>
+            <Textarea value={formRecommendation} onChange={(e:any) => setFormRecommendation(e.target.value)} className="mt-2" />
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => { setIsModalOpen(false); resetForm() }}>Annuler</Button>
+            <Button onClick={saveForm}>{editingIssue ? 'Enregistrer' : 'Créer'}</Button>
+          </div>
+        </div>
+      </Modal>
+
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Issues List */}
@@ -310,72 +432,90 @@ export function UxAuditSection() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid grid-cols-5 mb-4">
-                <TabsTrigger value="all" className="text-xs">Tous</TabsTrigger>
-                <TabsTrigger value="critical" className="text-xs">Critiques</TabsTrigger>
-                <TabsTrigger value="high" className="text-xs">Élevées</TabsTrigger>
-                <TabsTrigger value="medium" className="text-xs">Moyennes</TabsTrigger>
-                <TabsTrigger value="low" className="text-xs">Faibles</TabsTrigger>
-              </TabsList>
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                  <TabsList className="grid grid-cols-5 mb-4">
+                    <TabsTrigger value="all" className="text-xs">Tous</TabsTrigger>
+                    <TabsTrigger value="critical" className="text-xs">Critiques</TabsTrigger>
+                    <TabsTrigger value="high" className="text-xs">Élevées</TabsTrigger>
+                    <TabsTrigger value="medium" className="text-xs">Moyennes</TabsTrigger>
+                    <TabsTrigger value="low" className="text-xs">Faibles</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+              <div className="ml-4">
+                <Button variant="default" size="sm" onClick={openCreate}>
+                  <Plus className="w-4 h-4" />
+                  Nouveau Problème
+                </Button>
+              </div>
+            </div>
 
-              <TabsContent value={activeTab} className="mt-0">
-                <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
-                  {filteredIssues.map((issue) => {
-                    const Icon = issue.icon
-                    const severity = severityConfig[issue.severity]
-                    const isSelected = selectedIssue?.id === issue.id
+            <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
+              {filteredIssues.map((issue) => {
+                const Icon = issue.icon
+                const severity = severityConfig[issue.severity]
+                const isSelected = selectedIssue?.id === issue.id
 
-                    return (
-                      <div
-                        key={issue.id}
-                        onClick={() => setSelectedIssue(issue)}
-                        className={cn(
-                          "group p-4 rounded-xl border cursor-pointer transition-smooth",
-                          isSelected 
-                            ? "bg-primary/5 border-primary/30 shadow-glow-sm" 
-                            : "bg-card hover:bg-muted/50 border-border hover:border-primary/20"
-                        )}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={cn(
-                            "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-smooth",
-                            severity.bgLight
-                          )}>
-                            <Icon className={cn("w-5 h-5", severity.iconColor)} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-semibold text-foreground truncate">
-                                {issue.title}
-                              </h4>
-                              <Badge className={cn("text-[10px] shrink-0", severity.color)}>
-                                {severity.label}
-                              </Badge>
-                            </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">
-                              {issue.description}
-                            </p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Badge variant="outline" className="text-[10px]">
-                                {issue.category}
-                              </Badge>
-                              <Badge className={cn("text-[10px]", statusConfig[issue.status].color)}>
-                                {statusConfig[issue.status].label}
-                              </Badge>
-                            </div>
-                          </div>
-                          <ChevronRight className={cn(
-                            "w-5 h-5 text-muted-foreground transition-smooth shrink-0",
-                            isSelected ? "text-primary rotate-90" : "group-hover:text-foreground"
-                          )} />
+                return (
+                  <div
+                    key={issue.id}
+                    onClick={() => setSelectedIssue(issue)}
+                    className={cn(
+                      "group p-4 rounded-xl border cursor-pointer transition-smooth",
+                      isSelected 
+                        ? "bg-primary/5 border-primary/30 shadow-glow-sm" 
+                        : "bg-card hover:bg-muted/50 border-border hover:border-primary/20"
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={cn(
+                        "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-smooth",
+                        severity.bgLight
+                      )}>
+                        <Icon className={cn("w-5 h-5", severity.iconColor)} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="font-semibold text-foreground truncate">
+                            {issue.title}
+                          </h4>
+                          <Badge className={cn("text-[10px] shrink-0", severity.color)}>
+                            {severity.label}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {issue.description}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge variant="outline" className="text-[10px]">
+                            {issue.category}
+                          </Badge>
+                          <Badge className={cn("text-[10px]", statusConfig[issue.status].color)}>
+                            {statusConfig[issue.status].label}
+                          </Badge>
                         </div>
                       </div>
-                    )
-                  })}
-                </div>
-              </TabsContent>
-            </Tabs>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                          <Button variant="ghost" size="sm" onClick={(e:any)=>{e.stopPropagation(); openEdit(issue)}}>
+                            <Edit3 className="w-4 h-4 text-muted-foreground" />
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={(e:any)=>{e.stopPropagation(); deleteIssue(issue.id)}}>
+                            <Trash2 className="w-4 h-4 text-destructive" />
+                          </Button>
+                        </div>
+                        <ChevronRight className={cn(
+                          "w-5 h-5 text-muted-foreground transition-smooth shrink-0",
+                          isSelected ? "text-primary rotate-90" : "group-hover:text-foreground"
+                        )} />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </CardContent>
         </Card>
 
@@ -415,9 +555,9 @@ export function UxAuditSection() {
                 </div>
 
                 <div className="pt-4 border-t border-border">
-                  <Button className="w-full gap-2" size="sm">
+                  <Button className="w-full gap-2" size="sm" onClick={() => selectedIssue && toggleResolved(selectedIssue.id)}>
                     <CheckCircle2 className="w-4 h-4" />
-                    Marquer comme résolu
+                    {selectedIssue?.status === 'resolved' ? 'Annuler résolution' : 'Marquer comme résolu'}
                   </Button>
                 </div>
               </div>
