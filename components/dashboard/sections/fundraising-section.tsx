@@ -84,7 +84,6 @@ interface TableHeaderProps {
   { id: 13, name: "Accelerate Africa 2026", type: "Accélérateur", funding: "100 000 $ - 250 000 $", deadline: "2026-01-31", target: "Pre-seed" },
   { id: 14, name: "UN Global Pulse Accelerator", type: "Accélérateur ONU", funding: "Support mise à l’échelle", deadline: "2026-02-11", target: "MVP / Data & IA" },
   { id: 15, name: "BlueInvest Africa 2026", type: "Programme d'accélération / Investisseurs", funding: "Accès investisseurs / Pitch", deadline: "2026-02-13", target: "Seed / Blue Economy" },
-  { id: 16, name: "O-Farms Accelerator", type: "Accélérateur AgriTech", funding: "6 800 € + Invest. 20k–100k €", deadline: "2026-02-15", target: "AgriTech" },
   { id: 17, name: "UNICEF StartUp Lab", type: "Startup Lab / Accélération", funding: "Accompagnement technique", deadline: "2026-02-20", target: "MVP / Impact social" },
   { id: 18, name: "Tony Elumelu Foundation", type: "Programme d'accélération", funding: "Financement + Mentorat", deadline: "2026-03-01", target: "Entrepreneurs africains" },
   ];
@@ -92,21 +91,15 @@ interface TableHeaderProps {
   const otherOpportunities: Opportunity[] = [
   { id: 101, name: "Earth Journalism Network", type: "Bourse médias", funding: "Bourses de reportage", deadline: "2026-01-06", target: "Post-MVP / Journalisme" },
   { id: 102, name: "AU–EU Youth Action Lab", type: "Programme innovation", funding: "Jusqu'à 50 000 €", deadline: "2026-01-07", target: "Idée / Jeunes" },
-  { id: 103, name: "She Code Africa Academy", type: "Formation", funding: "Formation virtuelle", deadline: "2026-01-10", target: "Idée / Femmes dans la tech" },
-  { id: 104, name: "LVMH Prize for Designers", type: "Prix", funding: "Prix financier + Mentorat", deadline: "2026-01-11", target: "Early-stage / Designers" },
   { id: 105, name: "International Climate Initiative (IKI)", type: "Subvention", funding: "60 000 € - 200 000 €", deadline: "2026-01-15", target: "Idée / MVP / Climat" },
-  { id: 106, name: "Art Exchange: Moving Image", type: "Programme créatif", funding: "Développement curatorial", deadline: "2026-01-18", target: "Créatifs" },
   { id: 107, name: "ICN / World Bank Contest", type: "Concours", funding: "Visibilité / Réseau", deadline: "2026-01-24", target: "Early-stage" },
   { id: 108, name: "Women Entrepreneurs (IYBA-WE4A)", type: "Programme femmes", funding: "5 000 $ (Seed)", deadline: "2026-01-25", target: "Seed / Femmes entrepreneures" },
   { id: 109, name: "iF Design Student Award", type: "Concours design", funding: "50 000 € de prix", deadline: "2026-01-28", target: "Idée / Étudiants design" },
   { id: 110, name: "EridanSeed SME Venture Scale", type: "Fonds d'investissement", funding: "25 000 $ (Equity)", deadline: "2026-01-31", target: "PME" },
-  { id: 111, name: "African Women Entrepreneurship Cooperative (AWEC)", type: "Programme leadership", funding: "Formation / Leadership", deadline: "2026-02-01", target: "Femmes entrepreneures" },
   { id: 112, name: "Female Founder Award (VivaTech)", type: "Prix / Programme", funding: "Mentorat + Stand", deadline: "2026-02-02", target: "Early-stage / Femmes" },
   { id: 113, name: "UNHCR x Fuzé Challenge", type: "Challenge", funding: "Visibilité", deadline: "2026-02-04", target: "Réfugiés / Inclusion" },
   { id: 114, name: "Fonseca Leadership Program", type: "Programme leadership", funding: "Bourses de formation", deadline: "2026-02-06", target: "Conservation" },
-  { id: 115, name: "International Albert Schweitzer Prize", type: "Prix HealthTech", funding: "10 000 € - 25 000 €", deadline: "2026-02-06", target: "HealthTech" },
   { id: 116, name: "Qualcomm Make in Africa", type: "Programme hardware", funding: "10 000 $ (Bourse + Brevet)", deadline: "2026-02-15", target: "Hardware / DeepTech" },
-  { id: 117, name: "UNESCO / Guillermo Cano Prize", type: "Prix médias", funding: "25 000 $", deadline: "2026-02-15", target: "Journalisme" },
 ];
 
 
